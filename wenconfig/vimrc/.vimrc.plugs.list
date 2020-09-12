@@ -1,0 +1,115 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
+" WEN VIMRC PLUGINS LIST
+"
+" @file: ~/.vimrc.plugs.list
+" @author: gawain.id@outlook.com
+" @last: 20200807 18:38
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" PLUGIN BEGIN
+
+" COLOR PLUGINS {
+    Plug 'altercation/vim-colors-solarized'         " Default color scheme.
+    "Plug 'chriskempson/base16-vim'
+    "Plug 'joshdick/onedark.vim'
+    "Plug 'morhetz/gruvbox'
+    "Plug 'nanotech/jellybeans.vim'
+    "Plug 'romainl/apprentice'
+    "Plug 'tomasr/molokai'
+" }
+
+" UI PLUGINS {
+    Plug 'kien/rainbow_parentheses.vim'             " Better Rainbow Parentheses.
+    "Plug 'liuchengxu/vim-which-key',               " Displays available keybindings, in popup.
+    "           \ {'on': ['WhichKey', 'WhichKey!']}
+
+    Plug 'mg979/vim-visual-multi',                  " Visual-Multi (VM in short) is a
+                \ {'branch': 'master'}              " multiple selections/cursors.
+
+    Plug 'mhinz/vim-startify'                       " Startify is a plugin that shows recently used files, bookmarks,
+                                                    " commands and sessions that were saved to a certain directory.
+    Plug 'myusuf3/numbers.vim'                      " Numbers.vim is a plugin for intelligently toggling line numbers.
+    Plug 'tpope/vim-surround'                       " This plugin is a tool for dealing with pairs of surroundings.
+    Plug 'vim-airline/vim-airline'                  " Lean & mean status/tabline for vim that's light as air.
+    Plug 'vim-airline/vim-airline-themes'           " Airline plugin theme.
+    Plug 'vim-scripts/BOOKMARKS--Mark-and-Highlight-Full-Lines'
+                                                    " Highlight marks.
+" }
+
+" FILE MANAGEMENT PLUGINS {
+    Plug 'Yggdroot/LeaderF',                        " An efficient fuzzy finder that helps to locate files, buffers,
+                \ {'do': './install.sh'}            " mrus, gtags, etc. on the fly.
+
+    Plug 'easymotion/vim-easymotion'                " EasyMotion provides a much simpler way to use some motions in vim.
+    Plug 'farmergreg/vim-lastplace'                 " Intelligently reopen files at your last edit position.
+    "Plug 'liuchengxu/vim-clap',                    " Vim-clap is a modern generic interactive finder and dispatcher.
+                \ {'do': ':Clap install-binary!'}
+    Plug 'liuchengxu/vista.vim'                     " View and search LSP symbols, tags in Vim/NeoVim.
+    Plug 'ludovicchabant/vim-gutentags'             " Gutentags is a plugin that takes care of the much needed 
+                                                    " management of tags files in Vim.
+
+    Plug 'preservim/nerdtree'                       " The NERDTree is a file system explorer for the Vim editor.
+    Plug 'skywind3000/asyncrun.vim'                 " Vim executes commands asynchronously.
+    Plug 'skywind3000/gutentags_plus'               " Gutentags is a vim 8 dedicated plugin which will update gtags
+                                                    " databasein background automatically on file change. Gutentags_plus
+                                                    " works with gutentags and provides seemlessi databases switching.
+" }
+
+" EDITING PLUGINS {
+    Plug 'editorconfig/editorconfig-vim'            " EditorConfig helps maintain consistent coding styles for 
+                                                    " multiple developers working on the same project across various
+                                                    " editors and IDEs.
+
+    Plug 'jiangmiao/auto-pairs'                     " Insert or delete brackets, parens, quotes in pair.
+    Plug 'junegunn/vim-easy-align'                  " A simple, easy-to-use Vim alignment plugin.
+    Plug 'kshenoy/vim-signature'                    " vim-signature is a plugin to place, toggle and display marks.
+    Plug 'maxbrunsfeld/vim-yankstack'               " Is a lightweight implementation of the Emacs 'kill ring' for Vim.
+    Plug 'nathanaelkane/vim-indent-guides'          " Is a plugin for visually displaying indent levels in Vim.
+    Plug 'preservim/nerdcommenter'                  " Comment functions so powerfulno comment necessary.
+    Plug 'sbdchd/neoformat'                         " A (Neo)vim plugin for formatting code.
+    Plug 'sjl/gundo.vim'                            " Gundo.vim is Vim plugin to visualize your Vim undo tree.
+    Plug 'terryma/vim-expand-region'                " vim-expand-region is a Vim plugin that allows you to
+                                                    " visually select increasingly larger regions of text
+                                                    " using the same key combination.
+
+    Plug 'tpope/vim-repeat'                         " Repeat.vim remaps . in a way that plugins can tap into it.
+    Plug 'wellle/targets.vim'                       " Targets.vim is a Vim plugin that adds various text objects to
+                                                    " give you more targets to operate on.
+
+    Plug 'wellle/visual-split.vim'                  " Vim plugin to control splits with visual selections or text objects.
+" }
+
+" SNIPPETS/SYNTAX/COMPLETION PLUGINS {
+    Plug 'SirVer/ultisnips'                         " UltiSnips is the ultimate solution for snippets in Vim.
+    Plug 'honza/vim-snippets'                       " Snippets are separated from the engine.
+    "Plug 'Valloric/YouCompleteMe'                  " A code-completion engine for Vim.
+    Plug 'dense-analysis/ale'                       " ALE (Asynchronous Lint Engine).
+    Plug 'neoclide/coc.nvim',                       " Language Server, true snippet and additional text editing support.
+                \ {'do': 'yarn install --frozen-lockfile'}
+
+    "Plug 'rdnetto/YCM-Generator',
+    "            \ {'branch': 'stable'}             " from a project with an arbitrary build system.
+" }
+
+" LANGUAGE PLUGINS {
+    Plug 'sheerun/vim-polyglot'                     " A collection of language packs for Vim.
+    Plug 'kkoomen/vim-doge'                         " DoGe is a (Do)cumentation (Ge)nerator which will generate
+                                                    " a proper documentation skeleton based on certain expressions
+                                                    " (mainly functions).
+" }
+
+" TOOLS PLUGINS {
+    "Plug 'suan/vim-instant-markdown',               " Markdown preview.
+    "           \ {'for': 'markdown'}
+    "Plug 'tpope/vim-fugitive'                       " Fugitive is the premier Vim plugin for Git.
+    "Plug 'vim-scripts/DrawIt'                       " DrawIt is a plugin which allows one to draw lines left, right,
+                                                     " up, down, and along both slants.
+
+    Plug 'yianwillis/vimcdoc'                        " Vim Chinese document.
+" }
+
+" PLUGIN END
+"
+
