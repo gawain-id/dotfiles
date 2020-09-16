@@ -32,7 +32,7 @@
     set termencoding=utf-8                                  " Terminal encoding.
     set fileencodings=ucs-bom,utf-8,chinese,gbk,\
                         \gb2312,gb18030,big5,\
-                        \ecu-jp,euc-kr,latin1
+                        \euc-jp,euc-kr,latin1
                                                             " Detect file encoding in order.
 " }
 
