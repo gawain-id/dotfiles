@@ -1,0 +1,8 @@
+set guifont=Hack:h10.5
+set nospell
+
+if has('python3')
+  set pyxversion=3
+endif
+let g:python3_host_prog = 'D:\gpc\software\run\apps\dev\python\3.8.5\python.exe'
+
