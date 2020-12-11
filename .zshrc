@@ -136,7 +136,7 @@ fi
 export GEM_HOME=~/.gem
 export GEM_PATH=~/.gem
 
-if [ -z $RUBY_LOCAL_BIN]; then
+if [ -z $RUBY_LOCAL_BIN ]; then
     export RUBY_LOCAL_BIN=/home/gawain/.gem/ruby/2.7.0/bin
     export PATH=${RUBY_LOCAL_BIN}:${PATH}
 fi
