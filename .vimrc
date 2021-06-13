@@ -7,6 +7,7 @@ set fileencodings=usc-bom,utf-8,gbk,gb18030,big5,euc-jp,euc-kr,latin1
 set fileformats=unix,dos,mac
 set ttimeout
 set ttimeoutlen=50
+set tags=./.tags;,.tags
 
 filetype plugin indent on
 
@@ -19,12 +20,14 @@ set pyxversion=3
 
 let g:bundle_groups  = ['basic', 'general', 'programming', 'git', 'airline', 'leaderf']
 let g:bundle_groups += ['vista', 'polyglot', 'dogo', 'test', 'coc', 'ale', 'ultisnips']
-let g:bundle_groups += ['vimcdoc', 'translate', 'alt', 'coc', 'ultisnips', 'vista', 'tags', 'cpp', 'gas']
+"let g:bundle_groups += ['vista', 'polyglot', 'dogo', 'test', 'ultisnips']
+let g:bundle_groups += ['vimcdoc', 'translate', 'ultisnips', 'vista', 'tags', 'cpp', 'gas']
+let g:bundle_groups += ['crefvim', 'echodoc', 'nerdtree']
 if !exists('g:bundle_groups')
     let g:bundle_groups = []
     "let g:bundle_groups  = ['basic', 'general', 'programming', 'git', 'airline', 'leaderf']
     "let g:bundle_groups += ['vista', 'polyglot', 'dogo', 'test', 'coc', 'ale', 'ultisnips']
-    "let g:bundle_groups += ['vimcdoc', 'translate', 'alt', 'coc', 'ultisnips', 'vista', 'tags', 'cpp', 'gas']
+    "let g:bundle_groups += ['vimcdoc', 'translate', 'ale', 'coc', 'ultisnips', 'vista', 'tags', 'cpp', 'gas']
 endif
 
 " PLUGIN
@@ -34,6 +37,8 @@ Plug 'chrisbra/vim-diff-enhanced'
 Plug 'tpope/vim-eunuch'
 
 if index(g:bundle_groups, 'basic') >= 0
+    Plug 'flazz/vim-colorschemes'
+    Plug 'srcery-colors/srcery-vim'
     "Plug 'altercation/vim-colors-solarized'
     "Plug 'tomasr/molokai'
     Plug 'morhetz/gruvbox'
@@ -130,6 +135,9 @@ if index(g:bundle_groups, 'programming') >= 0
 
     " ERRORMARKER
     let errormarker_disablemappings = 1
+
+    " VIMSPECTOR
+    "let g:vimspector_enable_mappings = 'HUMAN'
 endif
 
 " COC
@@ -140,6 +148,49 @@ endif
 " ALE - LANGUAGE SERVER CLIENT
 if index(g:bundle_groups, 'ale') >= 0
     Plug 'dense-analysis/ale'
+
+    " 设定延迟和提示信息
+    let g:ale_completion_delay = 500
+    let g:ale_echo_delay = 20
+    let g:ale_lint_delay = 500
+    let g:ale_echo_msg_format = '[%linter%] %code: %%s'
+
+    " 设定检测的时机：normal 模式文字改变，或者离开 insert模式
+    " 禁用默认 INSERT 模式下改变文字也触发的设置，太频繁外，还会让补全窗闪烁
+    let g:ale_lint_on_text_changed = 'normal'
+    let g:ale_lint_on_insert_leave = 1
+
+    " 在 linux/mac 下降低语法检查程序的进程优先级（不要卡到前台进程）
+    if has('win32') == 0 && has('win64') == 0 && has('win32unix') == 0
+        let g:ale_command_wrapper = 'nice -n5'
+    endif
+
+    " 允许 airline 集成
+    let g:airline#extensions#ale#enabled = 1
+
+    " 编辑不同文件类型需要的语法检查器
+    let g:ale_linters = {
+                \ 'c': ['gcc', 'cppcheck'],
+                \ 'cpp': ['gcc', 'cppcheck'],
+                \ }
+
+    let g:ale_c_gcc_options = '-Wall -O2 -std=c89'
+    let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++11'
+    let g:ale_c_cppcheck_options = ''
+    let g:ale_cpp_cppcheck_options = ''
+
+    " 如果没有 gcc 只有 clang 时（FreeBSD）
+    if executable('gcc') == 0 && executable('clang')
+        let g:ale_linters.c += ['clang']
+        let g:ale_linters.cpp += ['clang']
+    endif
+endif
+
+" EHCODOC
+if index(g:bundle_groups, 'echodoc') >= 0
+	Plug 'Shougo/echodoc.vim'
+	set noshowmode
+	let g:echodoc#enable_at_startup = 1
 endif
 
 " ULTISNIPS
@@ -164,6 +215,7 @@ endif
 if index(g:bundle_groups, 'cpp') >= 0
     Plug 'vim-scripts/a.vim'
     Plug 'octol/vim-cpp-enhanced-highlight', { 'for': ['c', 'cpp'] }
+    "Plug 'skywind3000/vim-cppman'
 endif
 
 " AIRLINE - 状态栏渲染
@@ -311,7 +363,7 @@ if index(g:bundle_groups, 'tags') >= 0
     Plug 'skywind3000/gutentags_plus'
 
     " 设定项目目录标志：除了 .git/.svn 外，还有 .root 文件
-    let g:gutentags_project_root = ['.root']
+    let g:gutentags_project_root = ['.root', '.project']
     let g:gutentags_ctags_tagfile = '.tags'
 
     " 默认生成的数据文件集中到 ~/.cache/tags 避免污染项目目录，好清理
@@ -398,10 +450,119 @@ if index(g:bundle_groups, 'git') >= 0
 endif
 
 " VIM_GAS
-
 if index(g:bundle_groups, 'gas') >= 0
     Plug 'shirk/vim-gas'
 endif
+
+" CREFVIM
+if index(g:bundle_groups, 'crefvim') >= 0
+    Plug 'vim-scripts/CRefVim'
+endif
+
+" NERDTREE
+if index(g:bundle_groups, 'nerdtree') >= 0
+    Plug 'preservim/nerdtree'
+    Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+    let g:NERDTreeWinSIze = 32
+    let g:NERDTreeWinPos = "left"
+    let g:NERDTreeShowHidden = 1
+
+    let g:NERDTreeMinimalUI = 1
+    let g:NERDTreeDirArrows = 1
+    let g:NERDTreeHijackNetrw = 0
+
+    noremap <space>nn :NERDTree<cr>
+    noremap <space>no :NERDTreeFocus<cr>
+    noremap <space>nm :NERDTreeMirror<cr>
+    noremap <space>nt :NERDTreeToggle<cr>
+
+    noremap <F3> :NERDTreeToggle<cr>
+endif
+
+if index(g:bundle_groups, 'programming') >= 0
+    "----------------------------------------------------------------------
+    " 编译运行 C/C++ 项目
+    " 详细见：http://www.skywind.me/blog/archives/2084
+    "----------------------------------------------------------------------
+
+    " 自动打开 quickfix window ，高度为 6
+    let g:asyncrun_open = 6
+
+    " 任务结束时候响铃提醒
+    let g:asyncrun_bell = 1
+
+    " 设置 F10 打开/关闭 Quickfix 窗口
+    nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr>
+
+    " F9 编译 C/C++ 文件
+    nnoremap <silent> <F9> :AsyncRun gcc -Wall -O2 "$(VIM_FILEPATH)" -o "$(VIM_FILEDIR)/$(VIM_FILENOEXT)" <cr>
+
+    " F5 运行文件
+    nnoremap <silent> <F5> :call ExecuteFile()<cr>
+
+    " F7 编译项目
+    nnoremap <silent> <F7> :AsyncRun -cwd=<root> make <cr>
+
+    " F8 运行项目
+    nnoremap <silent> <F8> :AsyncRun -cwd=<root> -raw make run <cr>
+
+    " F6 测试项目
+    nnoremap <silent> <F6> :AsyncRun -cwd=<root> -raw make test <cr>
+
+    " 更新 cmake
+    nnoremap <silent> <F4> :AsyncRun -cwd=<root> cmake . <cr>
+
+    " Windows 下支持直接打开新 cmd 窗口运行
+    if has('win32') || has('win64')
+        nnoremap <silent> <F8> :AsyncRun -cwd=<root> -mode=4 make run <cr>
+    endif
+endif
+
+"----------------------------------------------------------------------
+" F5 运行当前文件：根据文件类型判断方法，并且输出到 quickfix 窗口
+"----------------------------------------------------------------------
+function! ExecuteFile()
+    let cmd = ''
+    if index(['c', 'cpp', 'rs', 'go'], &ft) >= 0
+        " native 语言，把当前文件名去掉扩展名后作为可执行运行
+        " 写全路径名是因为后面 -cwd=? 会改变运行时的当前路径，所以写全路径
+        " 加双引号是为了避免路径中包含空格
+        let cmd = '"$(VIM_FILEDIR)/$(VIM_FILENOEXT)"'
+    elseif &ft == 'python'
+        let $PYTHONUNBUFFERED=1 " 关闭 python 缓存，实时看到输出
+        let cmd = 'python "$(VIM_FILEPATH)"'
+    elseif &ft == 'javascript'
+        let cmd = 'node "$(VIM_FILEPATH)"'
+    elseif &ft == 'perl'
+        let cmd = 'perl "$(VIM_FILEPATH)"'
+    elseif &ft == 'ruby'
+        let cmd = 'ruby "$(VIM_FILEPATH)"'
+    elseif &ft == 'php'
+        let cmd = 'php "$(VIM_FILEPATH)"'
+    elseif &ft == 'lua'
+        let cmd = 'lua "$(VIM_FILEPATH)"'
+    elseif &ft == 'zsh'
+        let cmd = 'zsh "$(VIM_FILEPATH)"'
+    elseif &ft == 'ps1'
+        let cmd = 'powershell -file "$(VIM_FILEPATH)"'
+    elseif &ft == 'vbs'
+        let cmd = 'cscript -nologo "$(VIM_FILEPATH)"'
+    elseif &ft == 'sh'
+        let cmd = 'bash "$(VIM_FILEPATH)"'
+    else
+        return
+    endif
+    " Windows 下打开新的窗口 (-mode=4) 运行程序，其他系统在 quickfix 运行
+    " -raw: 输出内容直接显示到 quickfix window 不匹配 errorformat
+    " -save=2: 保存所有改动过的文件
+    " -cwd=$(VIM_FILEDIR): 运行初始化目录为文件所在目录
+    if has('win32') || has('win64')
+        exec 'AsyncRun -cwd=$(VIM_FILEDIR) -raw -save=2 -mode=4 '. cmd
+    else
+        exec 'AsyncRun -cwd=$(VIM_FILEDIR) -raw -save=2 -mode=0 '. cmd
+    endif
+endfunc
 
 call plug#end()
 
@@ -443,7 +604,6 @@ set noswapfile
 set undolevels=1000
 set history=1000
 set backspace=indent,eol,start
-set tags=./.tags;,.tags
 
 set ttyfast
 set lazyredraw
@@ -454,6 +614,7 @@ syntax on
 set background=dark
 colorscheme gruvbox
 "colorscheme desert
+"colorscheme srcery
 
 if has('gui_running')
     set guicursor=a:block-blinkon0
@@ -513,4 +674,6 @@ set helplang=cn
 " SETTINGS
 nnoremap <Leader>sv :source $MYVIMRC<CR>
 nnoremap <Leader><Space> :set hlsearch!<CR>
+
+map <silent> <unique> <Leader><Leader>cc <Plug>CRV_CRefVimInvoke
 
