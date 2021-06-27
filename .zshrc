@@ -46,6 +46,8 @@ ZSH_THEME="ys"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
+# Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
+# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
 # COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
@@ -73,10 +75,9 @@ plugins=(
   git
   git-open
   extract
+  autojump
   zsh-autosuggestions
   zsh-syntax-highlighting
-  autojump
-  zsh-dircolors-solarized
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -86,7 +87,7 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-export LANG=en_US.UTF-8
+# export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -106,11 +107,6 @@ export LANG=en_US.UTF-8
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# NEOVIM ENV
-alias vim='nvim'
-
-export EDITOR='nvim'
 
 # GTAGS ENV
 export GTAGSLABEL=pygments
@@ -132,6 +128,7 @@ if [ -z $COMPOSER_VENDOR_BIN ]; then
     export COMPOSER_VENDOR_BIN=~/.config/composer/vendor/bin
     export PATH=${COMPOSER_VENDOR_BIN}:${PATH}
 fi
+
 # RUBY ENV
 export GEM_HOME=~/.gem
 export GEM_PATH=~/.gem
@@ -144,6 +141,7 @@ fi
 # GO ENV
 if [ -n $GOPATH ]; then
     export GOBIN=~/go/bin
-    export PATH=${GOBIN}:${PATH}
+    export GOROOT=/usr/local/go
+    export PATH=${GOBIN}:${GOROOT}/bin:${PATH}
 fi
 
