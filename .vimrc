@@ -8,6 +8,14 @@ set fileformats=unix,dos,mac
 set ttimeout
 set ttimeoutlen=50
 set tags=./.tags;,.tags
+set path+=.
+set path +=C:/Progra~2/Microsoft\\\ Visual\\\ Studio/2019/Community/VC/Tools/MSVC/14.29.30037/ATLMFC/include
+set path +=C:/Progra~2/Microsoft\\\ Visual\\\ Studio/2019/Community/VC/Tools/MSVC/14.29.30037/include
+set path +=C:/Progra~2/Windows\\\ Kits/10/include/10.0.19041.0/ucrt
+set path +=C:/Progra~2/Windows\\\ Kits/10/include/10.0.19041.0/shared
+set path +=C:/Progra~2/Windows\\\ Kits/10/include/10.0.19041.0/um
+set path +=C:/Progra~2/Windows\\\ Kits/10/include/10.0.19041.0/winrt
+set path +=C:/Progra~2/Windows\\\ Kits/10/include/10.0.19041.0/cppwinrt
 
 filetype plugin indent on
 
@@ -23,6 +31,8 @@ let g:bundle_groups += ['vista', 'polyglot', 'dogo', 'test', 'coc', 'ale', 'ulti
 "let g:bundle_groups += ['vista', 'polyglot', 'dogo', 'test', 'ultisnips']
 let g:bundle_groups += ['vimcdoc', 'translate', 'ultisnips', 'vista', 'tags', 'cpp', 'gas']
 let g:bundle_groups += ['crefvim', 'echodoc', 'nerdtree']
+let g:bundle_groups += ['markdown-preview', 'hdl', 'go']
+
 if !exists('g:bundle_groups')
     let g:bundle_groups = []
     "let g:bundle_groups  = ['basic', 'general', 'programming', 'git', 'airline', 'leaderf']
@@ -84,6 +94,7 @@ if index(g:bundle_groups, 'basic') >= 0
 
     " TMUX-NAVIGATOR
     let g:tmux_navigator_save_on_switch = 1
+
 endif
 
 " GENERAL
@@ -174,7 +185,7 @@ if index(g:bundle_groups, 'ale') >= 0
                 \ 'cpp': ['gcc', 'cppcheck'],
                 \ }
 
-    let g:ale_c_gcc_options = '-Wall -O2 -std=c89'
+    let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
     let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++11'
     let g:ale_c_cppcheck_options = ''
     let g:ale_cpp_cppcheck_options = ''
@@ -272,7 +283,7 @@ if index(g:bundle_groups, 'leaderf') >= 0
         let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
 
         " 如何识别项目目录，从当前文件目录向父目录递归知道碰到下面的文件/目录
-        let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
+        let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git', '.gitignore', 'Makefile', 'README.md']
         let g:Lf_WorkingDirectoryMode = 'Ac'
         let g:Lf_WindowHeight = 0.30
         let g:Lf_CacheDirectory = expand('~/.vim/cache')
@@ -421,6 +432,10 @@ endif
 if index(g:bundle_groups, 'markdown-preview') >= 0
     " PREVIEW
     Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+
+    nmap <C-s> <Plug>MarkdownPreview
+    nmap <M-s> <Plug>MarkdownPreviewStop
+    nmap <C-m> <Plug>MarkdownPreviewToggle
 endif
 
 " WRITING
@@ -431,6 +446,17 @@ endif
 " TRANSLATE
 if index(g:bundle_groups, 'translate') >= 0
     Plug 'voldikss/vim-translator'
+
+    "let g:translator_proxy_url = 'socks5://127.0.0.1:1081'
+    " Echo translation in the cmdline
+    nmap <silent> <Leader>tt <Plug>Translate
+    vmap <silent> <Leader>tt <Plug>TranslateV
+    " Display translation in a window
+    nmap <silent> <Leader>tw <Plug>TranslateW
+    vmap <silent> <Leader>tw <Plug>TranslateWV
+    " Replace the text with translation
+    nmap <silent> <Leader>tr <Plug>TranslateR
+    vmap <silent> <Leader>tr <Plug>TranslateRV
 endif
 
 " GIT
@@ -519,6 +545,9 @@ if index(g:bundle_groups, 'programming') >= 0
     endif
 endif
 
+if index(g:bundle_groups, 'go') >= 0
+    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+endif
 "----------------------------------------------------------------------
 " F5 运行当前文件：根据文件类型判断方法，并且输出到 quickfix 窗口
 "----------------------------------------------------------------------
@@ -563,6 +592,11 @@ function! ExecuteFile()
         exec 'AsyncRun -cwd=$(VIM_FILEDIR) -raw -save=2 -mode=0 '. cmd
     endif
 endfunc
+
+" vim-hdl
+if index(g:bundle_groups, 'hdl') >= 0
+    Plug 'suoto/vim-hdl'
+endif
 
 call plug#end()
 
@@ -629,7 +663,8 @@ if has('gui_running')
 
     set t_Co=256
 
-    set guifont=Hack:h10.5
+    "set guifont=Hack:h10.5
+    set guifont=Hack_NF:h10.5
 endif
 
 set mouse=a
