@@ -8,14 +8,30 @@ set fileformats=unix,dos,mac
 set ttimeout
 set ttimeoutlen=50
 set tags=./.tags;,.tags
-set path+=.
-set path +=C:/Progra~2/Microsoft\\\ Visual\\\ Studio/2019/Community/VC/Tools/MSVC/14.29.30037/ATLMFC/include
-set path +=C:/Progra~2/Microsoft\\\ Visual\\\ Studio/2019/Community/VC/Tools/MSVC/14.29.30037/include
-set path +=C:/Progra~2/Windows\\\ Kits/10/include/10.0.19041.0/ucrt
-set path +=C:/Progra~2/Windows\\\ Kits/10/include/10.0.19041.0/shared
-set path +=C:/Progra~2/Windows\\\ Kits/10/include/10.0.19041.0/um
-set path +=C:/Progra~2/Windows\\\ Kits/10/include/10.0.19041.0/winrt
-set path +=C:/Progra~2/Windows\\\ Kits/10/include/10.0.19041.0/cppwinrt
+
+" Update path with the preprocessor's #include search paths. The C search
+" paths are a subset of the C++ search paths, so they don't have to be
+" additionally included.
+if has('unix') && executable('gcc')
+  let s:expr = 'gcc -Wp,-v -x c++ - -fsyntax-only 2>&1 </dev/null'
+  let s:lines = systemlist(s:expr)
+  if v:shell_error ==# 0
+    for s:line in s:lines
+      if match(s:line, '^ ') ==# -1 | continue | endif
+      let s:include = substitute(s:line, '^ ', '', '')
+      " Remove ' (framework directory)' suffix (applicable on macOS).
+      if match(s:include, ' (framework directory)$') && !isdirectory(s:include)
+        let s:include = substitute(s:include, ' (framework directory)$', '', '')
+      endif
+      if !isdirectory(s:include) | continue | endif
+      " Escape the path, including additional handling for spaces and commas.
+      let s:include = fnameescape(s:include)
+      let s:include = substitute(s:include, ',', '\\\\,', 'g')
+      let s:include = substitute(s:include, '\ ', '\\\\ ', 'g')
+      execute 'set path+=' . s:include
+    endfor
+  endif
+endif
 
 filetype plugin indent on
 
@@ -28,6 +44,7 @@ set pyxversion=3
 
 let g:bundle_groups  = ['basic', 'general', 'programming', 'git', 'airline', 'leaderf']
 let g:bundle_groups += ['vista', 'coc', 'ale', 'ultisnips', 'tags', 'nerdtree', 'cpp']
+let g:bundle_groups += ['gas']
 
 " PLUGIN
 call plug#begin('~/.vim/plugged')
@@ -445,6 +462,11 @@ function! ExecuteFile()
         exec 'AsyncRun -cwd=$(VIM_FILEDIR) -raw -save=2 -mode=0 '. cmd
     endif
 endfunc
+
+" GAS
+if index(g:bundle_groups, 'gas') >= 0
+    Plug 'shirk/vim-gas'
+endif
 
 call plug#end()
 " unix
