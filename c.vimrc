@@ -9,6 +9,17 @@ set ttimeout
 set ttimeoutlen=50
 set tags=./.tags;,.tags
 
+if has('win32') || has('win64')
+    set path +=.
+    set path +=C:/Progra~2/Microsoft\\\ Visual\\\ Studio/2019/Community/VC/Tools/MSVC/14.29.30133/ATLMFC/include
+    set path +=C:/Progra~2/Microsoft\\\ Visual\\\ Studio/2019/Community/VC/Tools/MSVC/14.29.30133/include
+    set path +=C:/Progra~2/Windows\\\ Kits/10/Include/10.0.19041.0/ucrt
+    set path +=C:/Progra~2/Windows\\\ Kits/10/Include/10.0.19041.0/shared
+    set path +=C:/Progra~2/Windows\\\ Kits/10/Include/10.0.19041.0/um
+    set path +=C:/Progra~2/Windows\\\ Kits/10/Include/10.0.19041.0/winrt
+    set path +=C:/Progra~2/Windows\\\ Kits/10/Include/10.0.19041.0/cppwinr
+endif
+
 " Update path with the preprocessor's #include search paths. The C search
 " paths are a subset of the C++ search paths, so they don't have to be
 " additionally included.
@@ -44,7 +55,6 @@ set pyxversion=3
 
 let g:bundle_groups  = ['basic', 'general', 'programming', 'git', 'airline', 'leaderf']
 let g:bundle_groups += ['vista', 'coc', 'ale', 'ultisnips', 'tags', 'nerdtree', 'cpp']
-let g:bundle_groups += ['gas']
 
 " PLUGIN
 call plug#begin('~/.vim/plugged')
@@ -462,11 +472,6 @@ function! ExecuteFile()
         exec 'AsyncRun -cwd=$(VIM_FILEDIR) -raw -save=2 -mode=0 '. cmd
     endif
 endfunc
-
-" GAS
-if index(g:bundle_groups, 'gas') >= 0
-    Plug 'shirk/vim-gas'
-endif
 
 call plug#end()
 " unix
