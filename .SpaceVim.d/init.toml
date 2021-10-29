@@ -1,13 +1,13 @@
 #=============================================================================
 # dark_powered.toml --- dark powered configuration example for SpaceVim
-# Copyright (c) 2016-2020 Wang Shidong & Contributors
+# Copyright (c) 2016-2021 Wang Shidong & Contributors
 # Author: Wang Shidong < wsdjeg at 163.com >
 # URL: https://spacevim.org
 # License: GPLv3
 #=============================================================================
 
 # All SpaceVim option below [option] section
-#[options]
+[options]
     # set spacevim theme. by default colorscheme layer is not loaded,
     # if you want to use more colorscheme, please load the colorscheme
     # layer
@@ -19,10 +19,14 @@
     # Disable statusline separator, if you want to use other value, please
     # install nerd fonts
     #statusline_separator = "arrow"
-    #statusline_inactive_separator = "arrow"
+    #statusline_iseparator = "arrow"
     #buffer_index_type = 4
     #enable_tabline_filetype_icon = true
     #enable_statusline_mode = false
+
+    #autocomplete_method = "deoplete"
+    #snippet_engine = "ultisnips"
+
 
 # Enable autocomplete layer
 
@@ -75,16 +79,19 @@
   gtagslabel = "pygments"
 
 [[layers]]
+  name = "lang#assembly"
+
+[[layers]]
   name = "lang#c"
 
   enable_clang_syntax_highlight = true
   
   clang_executable = "/usr/bin/clang"
   [layer.clang_std]
-    c = "c11"
-#    cpp = "c++17"
-    objc = "c11"
-#    objcpp = "c++17"
+    c = "c99"
+    cpp = "c++11"
+    #objc = "c11"
+    #objcpp = "c++17"
 
 [[layers]]
   name = "lang#extra"
@@ -105,9 +112,11 @@
 
 [[layers]]
   name = "lang#lua"
+  enable = false
 
 [[layers]]
   name = "lang#perl"
+  enable = false
 
 [[layers]]
   name = "php"
@@ -136,7 +145,7 @@
   name = "lang#toml"
 
 [[layers]]
-  name = "lang#typesript"
+  name = "lang#typescript"
 
 [[layers]]
   name = "lang#vim"
@@ -174,8 +183,6 @@
 [[layers]]
   name = "unite"
 
-  enable = false
-
 [[layers]]
   name = "lsp"
   filetypes = [
@@ -200,20 +207,23 @@
     	"-noverify",
     	"-Xmx1G",
     	"-jar",
-      "~/.java/jdt/plugins/org.eclipse.equinox.launcher_1.5.700.v20200207-2156.jar"
+      "D:\\gpc\\software\\run\\apps\\dev-work\\java\\jdt\\plugins\\org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar"
     	"-configuration",
-      "~/.java/jdt/config_linux"
+      "D:\\gpc\\software\\run\\apps\\dev-work\\java\\jdt\\config_win"
     	"-data",
-    	"~/.java/lsp" 
+      "D:\\gpc\\software\\run\\apps\\dev-work\\java\\lsp"
     ]
+
+[[custom_plujgins]]
 
 [options]
   bootstrap_before = "myspacevim#before"
   bootstrap_after = "myspacevim#after"
 
-  colorscheme = "NeoSolarized"
+  colorscheme = "gruvbox"
   colorscheme_bg = "dark"
   enable_guicolors = true
+  guifont = "Hack NF:h10.5"
 
   statusline_separator = "nil"
   statusline_inactive_separator = "bar"
@@ -228,5 +238,7 @@
   snippet_engine = "ultisnips"
   filemanager = "nerdtree"
   filetree_direction = "left"
+  layer_lang_java_formatter = 'D:\\gpc\\software\\run\\apps\\dev-work\\java\\format\\google-java-format-1.12.0.jar'
 
-  layer_lang_java_formatter = '~/.java/format/google-java-format-1.8.jar'
+  debug_level = 3
+  automatic_update = true

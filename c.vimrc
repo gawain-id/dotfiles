@@ -9,15 +9,16 @@ set ttimeout
 set ttimeoutlen=50
 set tags=./.tags;,.tags
 
+set path +=.
+set path +=./include
+set path +=../include
+
 if has('win32') || has('win64')
-    set path +=.
-    set path +=C:/Progra~2/Microsoft\\\ Visual\\\ Studio/2019/Community/VC/Tools/MSVC/14.29.30133/ATLMFC/include
-    set path +=C:/Progra~2/Microsoft\\\ Visual\\\ Studio/2019/Community/VC/Tools/MSVC/14.29.30133/include
-    set path +=C:/Progra~2/Windows\\\ Kits/10/Include/10.0.19041.0/ucrt
-    set path +=C:/Progra~2/Windows\\\ Kits/10/Include/10.0.19041.0/shared
-    set path +=C:/Progra~2/Windows\\\ Kits/10/Include/10.0.19041.0/um
-    set path +=C:/Progra~2/Windows\\\ Kits/10/Include/10.0.19041.0/winrt
-    set path +=C:/Progra~2/Windows\\\ Kits/10/Include/10.0.19041.0/cppwinr
+    " add extra paths.
+    let s:extpaths=expand("$HOME/.vim/.vim.extpaths")
+    if filereadable(s:extpaths)
+        execute "source ".s:extpaths
+    endif
 endif
 
 " Update path with the preprocessor's #include search paths. The C search
@@ -50,7 +51,7 @@ set winaltkeys=no
 let g:mapleader = ","
 let g:maplocalleader = ";"
 
-"let g:python3_host_prog = 'D:\gpc\software\run\apps\dev\python\3.9.5\python.exe'
+"let g:python3_host_prog = 'D:\gpc\software\run\apps\dev\python\3.9.6\python.exe'
 set pyxversion=3
 
 let g:bundle_groups  = ['basic', 'general', 'programming', 'git', 'airline', 'leaderf']
