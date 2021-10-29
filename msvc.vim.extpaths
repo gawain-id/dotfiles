@@ -1,8 +1,0 @@
-set path +=C:/Progra~2/Microsoft\\\ Visual\\\ Studio/2019/Community/VC/Tools/MSVC/14.29.30133/ATLMFC/include
-set path +=C:/Progra~2/Microsoft\\\ Visual\\\ Studio/2019/Community/VC/Tools/MSVC/14.29.30133/include
-set path +=C:/Progra~2/Windows\\\ Kits/10/Include/10.0.19041.0/ucrt
-set path +=C:/Progra~2/Windows\\\ Kits/10/Include/10.0.19041.0/shared
-set path +=C:/Progra~2/Windows\\\ Kits/10/Include/10.0.19041.0/um
-set path +=C:/Progra~2/Windows\\\ Kits/10/Include/10.0.19041.0/winrt
-set path +=C:/Progra~2/Windows\\\ Kits/10/Include/10.0.19041.0/cppwinr
-
