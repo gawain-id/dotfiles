@@ -57,6 +57,7 @@ set pyxversion=3
 
 let g:bundle_groups  = ['basic', 'general', 'programming', 'git', 'airline', 'leaderf']
 let g:bundle_groups += ['vista', 'coc', 'ale', 'ultisnips', 'tags', 'nerdtree', 'cpp']
+let g:bundle_groups += ['nasm']
 
 " PLUGIN
 call plug#begin('~/.vim/plugged')
@@ -474,6 +475,11 @@ function! ExecuteFile()
         exec 'AsyncRun -cwd=$(VIM_FILEDIR) -raw -save=2 -mode=0 '. cmd
     endif
 endfunc
+
+" NASM
+if index(g:bundle_groups, 'nasm') >= 0
+    let g:asmsyntax = "nasm"
+endif
 
 call plug#end()
 " unix
