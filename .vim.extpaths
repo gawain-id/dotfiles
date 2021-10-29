@@ -1,5 +1,1 @@
-set path=.
-set path+=,
-set path+=include/**2
-set path+=include;./
 set path+=/usr/include/**3

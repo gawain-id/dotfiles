@@ -1,7 +1,3 @@
-set path=.
-set path+=,
-set path+=include/**2
-set path+=include;./
 set path+=D:/gpc/software/run/apps/dev/msys2/20210725/usr/include
 set path+=D:/gpc/software/run/apps/dev/msys2/20210725/mingw64/include
 set path+=D:/gpc/software/run/apps/dev/msys2/20210725/mingw64/lib/gcc/x86_64-w64-mingw32/11.2.0/include

@@ -9,9 +9,10 @@ set ttimeout
 set ttimeoutlen=50
 set tags=./.tags;,.tags
 
-set path +=.
-set path +=./include
-set path +=../include
+set path =.
+set path +=,
+set path +=include/**2
+set path +=include;./
 
 if has('win32') || has('win64')
     " add extra paths.
