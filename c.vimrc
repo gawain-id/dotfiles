@@ -132,8 +132,7 @@ endif
 " ALE - LANGUAGE SERVER CLIENT
 if index(g:bundle_groups, 'ale') >= 0
     Plug 'dense-analysis/ale'
-
-    " 设定延迟和提示信息
+" 设定延迟和提示信息
     let g:ale_completion_delay = 500
     let g:ale_echo_delay = 20
     let g:ale_lint_delay = 500
@@ -154,20 +153,24 @@ if index(g:bundle_groups, 'ale') >= 0
 
     " 编辑不同文件类型需要的语法检查器
     let g:ale_linters = {
-                \ 'c': ['gcc', 'cppcheck'],
-                \ 'cpp': ['gcc', 'cppcheck'],
-                \ }
+        \ 'c': ['gcc', 'clang', 'cppcheck'],
+        \ 'cpp': ['g++', 'clang++', 'cppcheck']
+        \ }
 
-    let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
-    let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++11'
+    let g:ale_c_cc_executable = 'clang'
+    "let g:ale_c_cc_options = '-Wall -O2 -std=c89 --enable-auto-import'
+    let g:ale_c_cc_options = '-Wall -O2 -std=c89'
+
+    "let g:ale_cpp_cc_options = '-Wall -O2 -std=c++11 --enable-auto-import'
+    let g:ale_cpp_cc_options = '-Wall -O2 -std=c++11'
     let g:ale_c_cppcheck_options = ''
     let g:ale_cpp_cppcheck_options = ''
 
     " 如果没有 gcc 只有 clang 时（FreeBSD）
-    if executable('gcc') == 0 && executable('clang')
-        let g:ale_linters.c += ['clang']
-        let g:ale_linters.cpp += ['clang']
-    endif
+    "if executable('gcc') == 0 && executable('clang')
+    "    let g:ale_linters.c += ['clang']
+    "    let g:ale_linters.cpp += ['clang']
+    "endif
 endif
 
 " ULTISNIPS
@@ -550,7 +553,10 @@ if has('gui_running')
 
     set t_Co=256
 
-    set guifont=Hack_NF:h10.5
+    "set guifont=Hack_NF:h10.5
+    "set guifont=Menlo:h10.5
+    set guifont=BitstreamVeraSansMono_NF:h10.5
+    "set guifont=Roboto_Mono:h10.5
 endif
 
 set mouse=a
