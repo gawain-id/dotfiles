@@ -11,8 +11,14 @@ set tags=./.tags;,.tags
 
 set path =.
 set path +=,
+set path +=src/**2
+set path +=src;../
+
 set path +=include/**2
+set path +=include/**
 set path +=include;./
+set path +=include;../
+set path +=include;../../
 
 if has('win32') || has('win64')
     " add extra paths.
@@ -52,7 +58,8 @@ set winaltkeys=no
 let g:mapleader = ","
 let g:maplocalleader = ";"
 
-"let g:python3_host_prog = 'D:\gpc\software\run\apps\dev\python\3.9.6\python.exe'
+"let g:python3_host_prog = 'D:\gpc\software\run\apps\dev\python\3.10.0\python.exe'
+"let &pythonthreedll = 'D:\gpc\software\run\apps\dev\python\3.10.0\python310.dll'
 set pyxversion=3
 
 let g:bundle_groups  = ['basic', 'general', 'programming', 'git', 'airline', 'leaderf']
@@ -159,7 +166,7 @@ if index(g:bundle_groups, 'ale') >= 0
 
     let g:ale_c_cc_executable = 'clang'
     "let g:ale_c_cc_options = '-Wall -O2 -std=c89 --enable-auto-import'
-    let g:ale_c_cc_options = '-Wall -O2 -std=c89'
+    let g:ale_c_cc_options = '-Wall -O2 -std=c99'
 
     "let g:ale_cpp_cc_options = '-Wall -O2 -std=c++11 --enable-auto-import'
     let g:ale_cpp_cc_options = '-Wall -O2 -std=c++11'
@@ -553,10 +560,11 @@ if has('gui_running')
 
     set t_Co=256
 
-    "set guifont=Hack_NF:h10.5
+    set guifont=Hack_NF:h10.5
     "set guifont=Menlo:h10.5
-    set guifont=BitstreamVeraSansMono_NF:h10.5
-    "set guifont=Roboto_Mono:h10.5
+    "set guifont=BitstreamVeraSansMono_NF:h10.5
+    "set guifont=DejaVu_Sans_Mono:h10.5
+
 endif
 
 set mouse=a
