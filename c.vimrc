@@ -16,6 +16,8 @@ set path+=src;../
 set path+=include/**
 set path+=include;../
 
+set path+=.;../../../
+
 if executable('gcc')
   if has('win32')
     let s:expr = 'gcc -Wp,-v -x c++ - -fsyntax-only 2>&1 <nul | grep "^ " | sed "s/^ //"'
@@ -596,7 +598,7 @@ set formatoptions+=m
 set formatoptions+=B
 
 set langmenu=en_US.UTF-8
-set helplang=zh
+set helplang=cn
 
 " SETTINGS
 nnoremap <Leader>sv :source $MYVIMRC<CR>
