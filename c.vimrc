@@ -9,47 +9,30 @@ set ttimeout
 set ttimeoutlen=50
 set tags=./.tags;,.tags
 
-set path =.
-set path +=,
-set path +=src/**2
-set path +=src;../
+set path=.,,**
+set path+=src/**
+set path+=src;../
 
-set path +=include/**2
-set path +=include/**
-set path +=include;./
-set path +=include;../
-set path +=include;../../
+set path+=include/**
+set path+=include;../
 
-if has('win32') || has('win64')
-    " add extra paths.
-    let s:extpaths=expand("$HOME/.vim/.vim.extpaths")
-    if filereadable(s:extpaths)
-        execute "source ".s:extpaths
-    endif
-endif
-
-" Update path with the preprocessor's #include search paths. The C search
-" paths are a subset of the C++ search paths, so they don't have to be
-" additionally included.
-if has('unix') && executable('gcc')
-  let s:expr = 'gcc -Wp,-v -x c++ - -fsyntax-only 2>&1 </dev/null'
-  let s:lines = systemlist(s:expr)
-  if v:shell_error ==# 0
-    for s:line in s:lines
-      if match(s:line, '^ ') ==# -1 | continue | endif
-      let s:include = substitute(s:line, '^ ', '', '')
-      " Remove ' (framework directory)' suffix (applicable on macOS).
-      if match(s:include, ' (framework directory)$') && !isdirectory(s:include)
-        let s:include = substitute(s:include, ' (framework directory)$', '', '')
-      endif
-      if !isdirectory(s:include) | continue | endif
-      " Escape the path, including additional handling for spaces and commas.
-      let s:include = fnameescape(s:include)
-      let s:include = substitute(s:include, ',', '\\\\,', 'g')
-      let s:include = substitute(s:include, '\ ', '\\\\ ', 'g')
-      execute 'set path+=' . s:include
-    endfor
+if executable('gcc')
+  if has('win32')
+    let s:expr = 'gcc -Wp,-v -x c++ - -fsyntax-only 2>&1 <nul | grep "^ " | sed "s/^ //"'
+  else
+    let s:expr = 'gcc -Wp,-v -x c++ - -fsyntax-only 2>&1 </dev/null | grep "^ " | sed "s/^ //"'
   endif
+
+  let s:lines = systemlist(s:expr)
+  for s:line in s:lines
+      let s:include = resolve(fnameescape(s:line))
+      let s:include = substitute(s:include, '\ ', '\\\\ ', 'g')
+      let s:include = substitute(s:include, '\', '/', 'g')
+      if !isdirectory(s:include)
+          continue
+      endif
+      execute 'set path+=' . s:include
+  endfor
 endif
 
 filetype plugin indent on
@@ -64,7 +47,8 @@ set pyxversion=3
 
 let g:bundle_groups  = ['basic', 'general', 'programming', 'git', 'airline', 'leaderf']
 let g:bundle_groups += ['vista', 'coc', 'ale', 'ultisnips', 'tags', 'nerdtree', 'cpp']
-let g:bundle_groups += ['nasm']
+let g:bundle_groups += ['vimcdoc']
+"let g:bundle_groups += ['nasm']
 
 " PLUGIN
 call plug#begin('~/.vim/plugged')
@@ -139,7 +123,7 @@ endif
 " ALE - LANGUAGE SERVER CLIENT
 if index(g:bundle_groups, 'ale') >= 0
     Plug 'dense-analysis/ale'
-" 设定延迟和提示信息
+    " 设定延迟和提示信息
     let g:ale_completion_delay = 500
     let g:ale_echo_delay = 20
     let g:ale_lint_delay = 500
@@ -160,18 +144,21 @@ if index(g:bundle_groups, 'ale') >= 0
 
     " 编辑不同文件类型需要的语法检查器
     let g:ale_linters = {
-        \ 'c': ['gcc', 'clang', 'cppcheck'],
-        \ 'cpp': ['g++', 'clang++', 'cppcheck']
-        \ }
+                \ 'c': ['gcc', 'cppcheck'],
+                \ 'cpp': ['gcc', 'cppcheck'],
+                \ 'python': ['flake8', 'pylint'],
+                \ 'lua': ['luac'],
+                \ 'go': ['go build', 'gofmt'],
+                \ 'java': ['javac'],
+                \ 'javascript': ['eslint'],
+                \ }
 
-    let g:ale_c_cc_executable = 'clang'
-    "let g:ale_c_cc_options = '-Wall -O2 -std=c89 --enable-auto-import'
-    let g:ale_c_cc_options = '-Wall -O2 -std=c99'
-
-    "let g:ale_cpp_cc_options = '-Wall -O2 -std=c++11 --enable-auto-import'
-    let g:ale_cpp_cc_options = '-Wall -O2 -std=c++11'
+    let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
+    let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
     let g:ale_c_cppcheck_options = ''
     let g:ale_cpp_cppcheck_options = ''
+
+    let g:ale_linters.text = ['textlint', 'write-good', 'languagetool']
 
     " 如果没有 gcc 只有 clang 时（FreeBSD）
     "if executable('gcc') == 0 && executable('clang')
@@ -321,6 +308,10 @@ if index(g:bundle_groups, 'vista') >= 0
     Plug 'liuchengxu/vista.vim'
 
     nnoremap <F2> :Vista!!<CR>
+endif
+
+if index(g:bundle_groups, 'vimcdoc') >= 0
+    Plug 'yianwillis/vimcdoc'
 endif
 
 " TAGS
@@ -604,7 +595,8 @@ set formatoptions+=j
 set formatoptions+=m
 set formatoptions+=B
 
-set helplang=cn
+set langmenu=en_US.UTF-8
+set helplang=zh
 
 " SETTINGS
 nnoremap <Leader>sv :source $MYVIMRC<CR>
