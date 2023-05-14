@@ -1,6 +1,6 @@
-set path+=D:/gpc/software/run/apps/dev/msys64/usr/include
-set path+=D:/gpc/software/run/apps/dev/msys64/mingw64/include
-set path+=D:/gpc/software/run/apps/dev/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/11.2.0/include
+set path+=D:/gpc/software/run/apps/dev/lang/msys64/usr/include
+set path+=D:/gpc/software/run/apps/dev/lang/msys64/mingw64/include
+set path+=D:/gpc/software/run/apps/dev/lang/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include
 
-set path+=D:/gpc/software/run/apps/dev/msys64/mingw64/include/c++/11.2.0
-set path+=D:/gpc/software/run/apps/dev/msys64/mingw64/include/c++/11.2.0/x86_64-w64-mingw32
+set path+=D:/gpc/software/run/apps/dev/lang/msys64/mingw64/include/c++/12.2.0
+set path+=D:/gpc/software/run/apps/dev/lang/msys64/mingw64/include/c++/12.2.0/x86_64-w64-mingw32
