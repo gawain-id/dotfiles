@@ -43,8 +43,8 @@ set winaltkeys=no
 let g:mapleader = ","
 let g:maplocalleader = ";"
 
-"let g:python3_host_prog = 'D:\gpc\software\run\apps\dev\python\3.10.0\python.exe'
-"let &pythonthreedll = 'D:\gpc\software\run\apps\dev\python\3.10.0\python310.dll'
+"let g:python3_host_prog = 'D:/dev/lang/python/3.10.11\python.exe'
+"let &pythonthreedll = 'D:/dev/lang/python/3.10.11\python310.dll'
 set pyxversion=3
 
 let g:bundle_groups  = ['basic', 'general', 'programming', 'git', 'airline', 'leaderf']
