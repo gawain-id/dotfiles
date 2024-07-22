@@ -17,6 +17,14 @@ set path+=include/**
 set path+=include;../
 
 set path+=.;../../../
+" load .vim.extpaths
+if has('win32') || has('win64')
+    " add extra paths.
+    let s:extpaths=expand("$HOME/.vim/.vim.extpaths")
+    if filereadable(s:extpaths)
+        execute "source ".s:extpaths
+    endif
+endif
 
 if executable('gcc')
   if has('win32')
@@ -553,7 +561,7 @@ if has('gui_running')
 
     set t_Co=256
 
-    set guifont=Hack_NF:h10.5
+    set guifont=Hack:h10.5
     "set guifont=Menlo:h10.5
     "set guifont=BitstreamVeraSansMono_NF:h10.5
     "set guifont=DejaVu_Sans_Mono:h10.5

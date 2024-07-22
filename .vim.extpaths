@@ -1,7 +1,6 @@
-set path +=C:/Progra~2/Microsoft\\\ Visual\\\ Studio/2022/BuildTools/VC/Tools/MSVC/14.30.30705/include
+set path+=c:/msys64/usr/include
+set path+=c:/msys64/mingw64/include
+set path+=c:/msys64/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include
 
-set path +=C:/Progra~2/Windows\\\ Kits/10/Include/10.0.19041.0/cppwinr
-set path +=C:/Progra~2/Windows\\\ Kits/10/Include/10.0.19041.0/shared
-set path +=C:/Progra~2/Windows\\\ Kits/10/Include/10.0.19041.0/ucrt
-set path +=C:/Progra~2/Windows\\\ Kits/10/Include/10.0.19041.0/um
-set path +=C:/Progra~2/Windows\\\ Kits/10/Include/10.0.19041.0/winrt
+set path+=c:/msys64/mingw64/include/c++/13.2.0
+set path+=c:/msys64/mingw64/include/c++/13.2.0/x86_64-w64-mingw32
