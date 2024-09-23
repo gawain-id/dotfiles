@@ -21,35 +21,11 @@ set path+=.;../../../
 if has('win32') || has('win64')
     " add extra paths.
     let s:extpaths=expand("$HOME/.vim/.vim.extpaths")
+    echo s:extpaths
     if filereadable(s:extpaths)
         execute "source ".s:extpaths
     endif
 endif
-
-" add c c++ system include path
-if executable('gcc')
-    let s:c_include_path = Get_include_path('c')
-    let s:cpp_include_path = Get_include_path('c++')
-else
-    let s:c_include_path = []
-    let s:cpp_include_path = []
-endif
-
-if !exists('g:c_include_path')
-    let g:c_include_path = []
-endif
-
-if !exists('g:cpp_include_path')
-    let g:cpp_include_path = []
-endif
-
-let g:c_include_path = RemoveDuplicatesRecursive(g:c_include_path + s:c_include_path)
-let g:cpp_include_path = RemoveDuplicatesRecursive(g:cpp_include_path + s:cpp_include_path)
-let g:c_cpp_include_path = RemoveDuplicatesRecursive(g:c_include_path + g:cpp_include_path)
-
-for cpath in g:c_cpp_include_path
-    execute 'set path+=' . cpath
-endfor
 
 " gcc include path
 function Get_include_path(type = '')
@@ -69,7 +45,7 @@ function Get_include_path(type = '')
         if has('win32')
             let expr = 'gcc -Wp,-v -E -x c -dD -x c++ - -fsyntax-only 2>&1 <nul | grep "^ " | sed "s/^ //"'
         else
-            let expr = 'gcc -Wp,-v -E -x c -dD -x c++ - -fsyntax-only 2>&1 </dev/null | grep "^ " | sed "s/^ //"'
+            let expr = 'gcc -Wp,-v -E -x c -dD -x c++ - -fsyntax-only 2&1 </dev/null | grep "^ " | sed "s/^ //"'
         endif
     endif
 
@@ -89,19 +65,29 @@ function Get_include_path(type = '')
     return includes
 endfunction
 
-" unique
-function RemoveDuplicatesRecursive(list)
-  if empty(a:list)
-    return []
-  endif
-  let head = a:list[0]
-  let tail = a:list[1:]
-  if index(tail, head) >= 0
-    return RemoveDuplicatesRecursive(tail)
-  else
-    return [head] + RemoveDuplicatesRecursive(tail)
-  endif
-endfunction
+" add c c++ system include path
+if executable('gcc')
+    let s:c_include_path = Get_include_path('c')
+    let s:cpp_include_path = Get_include_path('c++')
+else
+    let s:c_include_path = []
+    let s:cpp_include_path = []
+endif
+
+if exists('b:c_include_path_ext') && !empty('b:c_include_path_ext')
+    let s:c_include_path = s:c_include_path + b:c_include_path_ext
+endif
+
+if exists('b:cpp_include_path_ext') && !empty('b:cpp_include_path_ext')
+    let s:cpp_include_path = s:cpp_include_path + b:cpp_include_path_ext
+endif
+
+let s:c_cpp_include_path = s:c_include_path + s:cpp_include_path
+
+for cpath in s:c_cpp_include_path
+    execute 'set path+=' . cpath
+endfor
+
 
 filetype plugin indent on
 
@@ -115,11 +101,12 @@ set pyxversion=3
 
 let g:bundle_groups  = ['basic', 'general', 'programming', 'git', 'airline', 'leaderf']
 let g:bundle_groups += ['vista', 'coc', 'ale', 'ultisnips', 'tags', 'nerdtree', 'cpp']
-let g:bundle_groups += ['vimcdoc']
+let g:bundle_groups += ['vimcdoc', 'vim']
 "let g:bundle_groups += ['nasm']
 
 " PLUGIN
 call plug#begin('~/.vim/plugged')
+
     Plug 'morhetz/gruvbox'
     Plug 'mhinz/vim-startify'
     Plug 'psliwka/vim-smoothie'
@@ -228,15 +215,16 @@ if index(g:bundle_groups, 'ale') >= 0
 
     " add include path
     let c_compile_options = []
-    if exists("g:c_include_paths")
-        for cpath in (g:c_include_paths)
+
+    if exists("s:c_include_path") && !empty("s:c_include_path")
+        for cpath in (s:c_include_path)
             call add(c_compile_options, "-I" . cpath)
         endfor
     endif
 
     let cpp_compile_options = []
-    if exists("g:cpp_include_paths")
-        for cpppath in (g:cpp_include_paths)
+    if exists("s:cpp_include_path") && !empty("s:cpp_include_path")
+        for cpppath in (s:cpp_include_path)
            call add(cpp_compile_options, "-I" . cpppath)
         endfor
     endif

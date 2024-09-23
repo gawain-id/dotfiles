@@ -1,2 +1,2 @@
-let g:c_include_path = ['D:/dev/lang/msys64/usr/include']
-let g:cpp_include_path = []
+let b:c_include_path_ext = ['D:/dev/lang/msys64/usr/include']
+let b:cpp_include_path_ext = []
