@@ -26,25 +26,82 @@ if has('win32') || has('win64')
     endif
 endif
 
-
+" add c c++ system include path
 if executable('gcc')
-  if has('win32')
-    let s:expr = 'gcc -Wp,-v -x c++ - -fsyntax-only 2>&1 <nul | grep "^ " | sed "s/^ //"'
-  else
-    let s:expr = 'gcc -Wp,-v -x c++ - -fsyntax-only 2>&1 </dev/null | grep "^ " | sed "s/^ //"'
-  endif
-
-  let s:lines = systemlist(s:expr)
-  for s:line in s:lines
-      let s:include = resolve(fnameescape(s:line))
-      let s:include = substitute(s:include, '\ ', '\\\\ ', 'g')
-      let s:include = substitute(s:include, '\', '/', 'g')
-      if !isdirectory(s:include)
-          continue
-      endif
-      execute 'set path+=' . s:include
-  endfor
+    let s:c_include_path = Get_include_path('c')
+    let s:cpp_include_path = Get_include_path('c++')
+else
+    let s:c_include_path = []
+    let s:cpp_include_path = []
 endif
+
+if !exists('g:c_include_path')
+    let g:c_include_path = []
+endif
+
+if !exists('g:cpp_include_path')
+    let g:cpp_include_path = []
+endif
+
+let g:c_include_path = RemoveDuplicatesRecursive(g:c_include_path + s:c_include_path)
+let g:cpp_include_path = RemoveDuplicatesRecursive(g:cpp_include_path + s:cpp_include_path)
+let g:c_cpp_include_path = RemoveDuplicatesRecursive(g:c_include_path + g:cpp_include_path)
+
+for cpath in g:c_cpp_include_path
+    execute 'set path+=' . cpath
+endfor
+
+" gcc include path
+function Get_include_path(type = '')
+    if (a:type == 'c') " c
+        if has('win32')
+            let expr = 'gcc -Wp,-v -E -x c - -fsyntax-only 2>&1 <nul | grep "^ " | sed "s/^ //"'
+        else
+            let expr = 'gcc -Wp,-v -E -x c - -fsyntax-only 2>&1 </dev/null | grep "^ " | sed "s/^ //"'
+        endif
+    elseif (a:type == 'c++') " c++
+        if has('win32')
+            let expr = 'gcc -Wp,-v -E -x c++ - -fsyntax-only 2>&1 <nul | grep "^ " | sed "s/^ //"'
+        else
+            let expr = 'gcc -Wp,-v -E -x c++ - -fsyntax-only 2>&1 </dev/null | grep "^ " | sed "s/^ //"'
+        endif
+    else " c and c++
+        if has('win32')
+            let expr = 'gcc -Wp,-v -E -x c -dD -x c++ - -fsyntax-only 2>&1 <nul | grep "^ " | sed "s/^ //"'
+        else
+            let expr = 'gcc -Wp,-v -E -x c -dD -x c++ - -fsyntax-only 2>&1 </dev/null | grep "^ " | sed "s/^ //"'
+        endif
+    endif
+
+    let lines = systemlist(expr)
+    let includes = []
+    for line in lines
+        let include = resolve(fnameescape(line))
+        let include = substitute(include, '\ ', '\\\\ ', 'g')
+        let include = substitute(include, '\', '/', 'g')
+        if !isdirectory(include)
+            continue
+        endif
+
+        call add(includes, include)
+    endfor
+
+    return includes
+endfunction
+
+" unique
+function RemoveDuplicatesRecursive(list)
+  if empty(a:list)
+    return []
+  endif
+  let head = a:list[0]
+  let tail = a:list[1:]
+  if index(tail, head) >= 0
+    return RemoveDuplicatesRecursive(tail)
+  else
+    return [head] + RemoveDuplicatesRecursive(tail)
+  endif
+endfunction
 
 filetype plugin indent on
 

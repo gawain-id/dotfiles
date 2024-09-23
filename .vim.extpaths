@@ -1,19 +1,2 @@
-let g:c_include_paths = []
-
-call add(g:c_include_paths, 'D:/dev/lang/msys64/usr/include')
-call add(g:c_include_paths, 'D:/dev/lang/msys64/ucrt64/include')
-call add(g:c_include_paths, 'D:/dev/lang/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/14.2.0/include')
-call add(g:c_include_paths, 'D:/dev/lang/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/14.2.0/include-fixed')
-    
-
-let g:cpp_include_paths = []
-
-call add(g:cpp_include_paths, 'D:/dev/lang/msys64/ucrt64/include/c++/14.2.0')
-call add(g:cpp_include_paths, 'D:/dev/lang/msys64/ucrt64/include/c++/14.2.0/x86_64-w64-mingw32')
-call add(g:cpp_include_paths, 'D:/dev/lang/msys64/ucrt64/include/c++/14.2.0/backward')
-
-let g:cpp_include_paths = cpp_include_paths + c_include_paths
-
-for cpppath in g:cpp_include_paths
-  execute  'set path+=' . cpppath
-endfor
+let g:c_include_path = ['D:/dev/lang/msys64/usr/include']
+let g:cpp_include_path = []
