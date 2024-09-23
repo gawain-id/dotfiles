@@ -12,10 +12,7 @@ call add(g:cpp_include_paths, 'D:/dev/lang/msys64/ucrt64/include/c++/14.2.0')
 call add(g:cpp_include_paths, 'D:/dev/lang/msys64/ucrt64/include/c++/14.2.0/x86_64-w64-mingw32')
 call add(g:cpp_include_paths, 'D:/dev/lang/msys64/ucrt64/include/c++/14.2.0/backward')
 
-
-for cpath in g:c_include_paths
-  execute  'set path+=' . cpath
-endfor
+let g:cpp_include_paths = cpp_include_paths + c_include_paths
 
 for cpppath in g:cpp_include_paths
   execute  'set path+=' . cpppath
