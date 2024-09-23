@@ -26,6 +26,7 @@ if has('win32') || has('win64')
     endif
 endif
 
+
 if executable('gcc')
   if has('win32')
     let s:expr = 'gcc -Wp,-v -x c++ - -fsyntax-only 2>&1 <nul | grep "^ " | sed "s/^ //"'
@@ -167,6 +168,24 @@ if index(g:bundle_groups, 'ale') >= 0
     let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
     let g:ale_c_cppcheck_options = ''
     let g:ale_cpp_cppcheck_options = ''
+
+    " add include path
+    let c_compile_options = []
+    if exists("g:c_include_paths")
+        for cpath in (g:c_include_paths)
+            call add(c_compile_options, "-I" . cpath)
+        endfor
+    endif
+
+    let cpp_compile_options = []
+    if exists("g:cpp_include_paths")
+        for cpppath in (g:cpp_include_paths)
+           call add(cpp_compile_options, "-I" . cpppath)
+        endfor
+    endif
+
+    let g:ale_c_compile_options = c_compile_options
+    let g:ale_cpp_compile_options = cpp_compile_options
 
     let g:ale_linters.text = ['textlint', 'write-good', 'languagetool']
 
