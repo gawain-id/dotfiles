@@ -21,7 +21,6 @@ set path+=.;../../../
 if has('win32') || has('win64')
     " add extra paths.
     let s:extpaths=expand("$HOME/.vim/.vim.extpaths")
-    echo s:extpaths
     if filereadable(s:extpaths)
         execute "source ".s:extpaths
     endif
