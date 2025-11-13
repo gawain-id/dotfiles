@@ -87,8 +87,8 @@ set selection=exclusive
 set selectmode=mouse,key
 
 if has('clipboard')
-    if has('unnameplug')
-        set clipboard=unamed,unnameplug
+    if has('unnamedplus')
+        set clipboard=unnamed,unnamedplus
     else
         set clipboard=unnamed
     endif
