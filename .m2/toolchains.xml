@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF8"?>
+<toolchains>
+	<!-- OpenJDK toolchains -->
+	<toolchain>
+		<type>jdk</type>
+		<provides>
+			<version>1.8</version>
+			<vendor>openjdk</vendor>
+		</provides>
+		<configuration>
+			<jdkHome>D:/dev/lang/java/jdk/openjdk/1.8.0_472</jdkHome>
+		</configuration>
+	</toolchain>
+	<toolchain>
+		<type>jdk</type>
+		<provides>
+			<version>11</version>
+			<vendor>openjdk</vendor>
+		</provides>
+		<configuration>
+			<jdkHome>D:/dev/lang/java/jdk/openjdk/11.0.28</jdkHome>
+		</configuration>
+	</toolchain>
+	<toolchain>
+		<type>jdk</type>
+		<provides>
+			<version>17</version>
+			<vendor>openjdk</vendor>
+		</provides>
+		<configuration>
+			<jdkHome>D:/dev/lang/java/jdk/openjdk/17.0.17</jdkHome>
+		</configuration>
+	</toolchain>
+
+	<toolchain>
+		<type>jdk</type>
+		<provides>
+			<version>21</version>
+			<vendor>openjdk</vendor>
+		</provides>
+		<configuration>
+			<jdkHome>D:/dev/lang/java/jdk/openjdk/21.0.9</jdkHome>
+		</configuration>
+	</toolchain>
+
+	<toolchain>
+		<type>jdk</type>
+		<provides>
+			<version>25</version>
+			<vendor>openjdk</vendor>
+		</provides>
+		<configuration>
+			<jdkHome>D:/dev/lang/java/jdk/openjdk/25.0.1</jdkHome>
+		</configuration>
+	</toolchain>
+	<!-- OpenJDK toolchains -->
+</toolchains>

@@ -1,0 +1,66 @@
+// ~/.gradle/init.gradle
+allprojects {
+    buildscript {
+        repositories {
+            // 1. main
+            maven {
+                name = 'HuaweiPublic'
+                url = 'https://mirrors.huaweicloud.com/repository/maven/'
+            }
+
+            maven {
+                name = 'AliyunPublic'
+                url = 'https://maven.aliyun.com/repository/public'
+            }
+			
+			// 添加官方源
+            maven { 
+                name = 'GradlePluginPortal'
+                url = 'https://plugins.gradle.org/m2/'
+            }
+            maven {
+                name = 'AliyunGradlePlugin'
+                url = 'https://maven.aliyun.com/repository/gradle-plugin'
+            }
+
+            // 2. special
+            maven {
+                name = 'AliyunGoogle'
+                url = 'https://maven.aliyun.com/repository/google'
+            }
+            maven {
+                name = 'AliyunSpring'
+                url = 'https://maven.aliyun.com/repository/spring'
+            }
+
+            // 3. local
+            mavenLocal()
+            // 4. official
+            gradlePluginPortal()
+            mavenCentral()
+            google()
+        }
+    }
+
+    repositories {
+        maven { name = 'HuaweiPublic'; url = 'https://mirrors.huaweicloud.com/repository/maven/' }
+        maven { name = 'AliyunPublic'; url = 'https://maven.aliyun.com/repository/public' }        
+        maven { name = 'AliyunGoogle'; url = 'https://maven.aliyun.com/repository/google' }
+        maven { name = 'AliyunSpring'; url = 'https://maven.aliyun.com/repository/spring' }
+        mavenLocal()
+        mavenCentral()
+        google()
+    }
+
+}
+
+settingsEvaluated { settings ->
+    settings.pluginManagement {
+        repositories {
+            maven { name = 'HuaweiPublic'; url = 'https://mirrors.huaweicloud.com/repository/maven/' }
+            maven { name = 'AliyunGradlePlugin'; url = 'https://maven.aliyun.com/repository/gradle-plugin' }
+
+            gradlePluginPortal()
+        }
+    }
+}
