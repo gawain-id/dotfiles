@@ -16,7 +16,7 @@ silent function! OSX()
 endfunction
 
 silent function! LINUX()
-  return has('unix') && !has('macunix') !has('win32unix')
+  return has('unix') && !has('macunix') && !has('win32unix')
 endfunction
 
 silent function WINDOWS()
