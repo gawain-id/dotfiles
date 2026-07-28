@@ -425,8 +425,8 @@ set selection=exclusive
 set selectmode=mouse,key
 
 if has('clipboard')
-    if has('unnamedplug')
-        set clipboard=unnamed,unnamedplug
+    if has('unnamedplus')
+        set clipboard=unnamed,unnamedplus
     else
         set clipboard=unnamed
     endif
